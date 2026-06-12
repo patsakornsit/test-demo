@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo - ทดสอบการกดปุ่ม</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card p.label {
+    font-size: 13px;
+    color: #777;
+    margin: 0 0 4px;
+  }
+  .card p.value {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  button {
+    padding: 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  button:hover { background: #f0f0f0; }
+  button:active { transform: scale(0.97); }
+  #reset-btn {
+    width: 100%;
+    background: #fff;
+  }
+  .log-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .log-box p.title {
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 8px;
+  }
+  #log {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #555;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  #log p { margin: 0; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="stats">
+      <div class="card">
+        <p class="label">จำนวนครั้งที่กด</p>
+        <p class="value" id="count">0</p>
+      </div>
+      <div class="card">
+        <p class="label">ปุ่มล่าสุด</p>
+        <p class="value" id="last">-</p>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="btn-a">ปุ่ม A</button>
+      <button id="btn-b">ปุ่ม B</button>
+      <button id="btn-c">ปุ่ม C</button>
+    </div>
+
+    <div class="log-box">
+      <p class="title">ประวัติการกด</p>
+      <div id="log">
+        <p>ยังไม่มีการกดปุ่ม</p>
+      </div>
+    </div>
+
+    <button id="reset-btn">รีเซ็ต</button>
+  </div>
+
+<script>
+  let count = 0;
+  const countEl = document.getElementById('count');
+  const lastEl = document.getElementById('last');
+  const logEl = document.getElementById('log');
+
+  function addLog(label) {
+    count++;
+    countEl.textContent = count;
+    lastEl.textContent = label;
+    const time = new Date().toLocaleTimeString('th-TH');
+    if (count === 1) logEl.innerHTML = '';
+    const entry = document.createElement('p');
+    entry.textContent = `#${count} กด "${label}" เวลา ${time}`;
+    logEl.prepend(entry);
+  }
+
+  document.getElementById('btn-a').addEventListener('click', () => addLog('A'));
+  document.getElementById('btn-b').addEventListener('click', () => addLog('B'));
+  document.getElementById('btn-c').addEventListener('click', () => addLog('C'));
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    count = 0;
+    countEl.textContent = '0';
+    lastEl.textContent = '-';
+    logEl.innerHTML = '<p>ยังไม่มีการกดปุ่ม</p>';
+  });
+</script>
+</body>
+</html>
